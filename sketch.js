@@ -3,11 +3,14 @@ const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
+var form, game;
 var engine, world;
 var tank1, tank2;
 var bg;
 var tankImage1,tankImage2;
-
+var database;
+var playerCount, gameState = "start";
+var cannonball, cannonballPos;
 var healthbar1,healthbar2,healthbar3,healthbar4,healthbar5,healthbar6;
 
 function preload(){
@@ -32,6 +35,12 @@ function setup(){
     engine = Engine.create();
     world = engine.world;
 
+    database = firebase.database();
+    
+
+    game = new Game();
+    game.start();
+
     tank1 = createSprite(750,500,50,50);
     tank1.addImage("tank1", tankImage1)
     tank1.scale = 0.2;
@@ -39,8 +48,8 @@ function setup(){
     tank2.addImage("tank2", tankImage2);
     tank2.scale = 0.2;
 
-    cannonball = new Cannonball(100,100);
-    chain = new Chain({x:200,y:200}, cannonball.body);
+   
+    //chain = new Chain({x:200,y:200}, cannonball.body);
    
     
     healthbar = createSprite(750,450,20,10);
@@ -68,17 +77,20 @@ function draw(){
 
     Engine.update(engine);
 
-    cannonball.display();
-    chain.display();
-    
+    //cannonball.display();
+    //chain.display();
+   
     drawSprites();
 }
 
 function mouseDragged(){
     Matter.Body.setPosition(cannonball.body,{x:mouseX,y:mouseY})
+    
+
+    
 }
-/*function mouseReleased(){
-    cannonball.update();
+function mouseReleased(){
+    chain.update();
 }
-*/
+
 
