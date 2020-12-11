@@ -10,5 +10,19 @@ class Form{
 
         this.input.position(200,150);
         this.button.position(200,200);
+
+        this.button.mousePressed(()=>{
+            this.input.hide();
+            this.title.hide();
+            this.button.hide();
+
+            cannonball.name = this.input.value();
+
+            playerCount++;
+            cannonball.index = playerCount;
+
+            cannonball.updateCount(playerCount);
+            cannonball.update()
+        })
     }
 }

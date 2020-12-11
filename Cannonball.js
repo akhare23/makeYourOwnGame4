@@ -3,6 +3,7 @@ class Cannonball{
         this.index = null;
         this.name = "";
         this.body = Bodies.circle(x,y,5);
+        this.playerHealth = 20;
         //this.image = loadImage("images/cannonball.png")
         World.add(world,this.body);
     }
@@ -28,17 +29,21 @@ class Cannonball{
     }
     update(){
         var playerRef = "players/player" + this.index;
-        database.ref(playerRef).update({
+        database.ref(playerRef).set({
             name:this.name,
+            health:this.playerHealth
+
         })
     }
-    updatePosition(){
+    updatePlayerData(){
         var playerRef = "players/player" + this.index;
         database.ref(playerRef).update({
         x:this.body.position.x,
-        y:this.body.position.y
+        y:this.body.position.y,
+        health:this.playerHealth,
     })
     }
+    
     /*read(){
         var cannonballRef = database.ref("");
         cannonballRef.on("value",function(data){
