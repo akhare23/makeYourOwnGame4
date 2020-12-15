@@ -14,6 +14,8 @@ var cannonball, cannonballPos;
 var healthbar, healthbarSprite;
 var healthbar1,healthbar2,healthbar3,healthbar4,healthbar5,healthbar6;
 var players;
+var flagMouseDraggedProblem = 0;
+var tankBody, tankBody2;
 
 function preload(){
 
@@ -39,7 +41,12 @@ function setup(){
 
     database = firebase.database();
     
-
+    tankBody = Bodies.rectangle(750,500,100,50, {isStatic:false});
+    World.add(world,tankBody);
+    tankBody2 = Bodies.rectangle(250,500,200,50, {isStatic:false});
+    World.add(world,tankBody2);
+    ground = Bodies.rectangle(500,900,1000,10, {isStatic:true});
+    World.add(world,ground);
     game = new Game();
     game.start();
 
@@ -49,12 +56,16 @@ function setup(){
 function draw(){
     //if(bg)
     background(255);
-
+    //console.log(tankBody.position.y);
     Engine.update(engine);
 
     //cannonball.display();
     //chain.display();
+    rectMode(CENTER);
+    fill("black");
+    rect(ground.position.x,ground.position.y,1000,10);
 
+    
     if(playerCount === 2){
         gameState = 1;
         game.update(1);
@@ -67,13 +78,28 @@ function draw(){
 }
 
 function mouseDragged(){
+    
+    if(gameState === 1){
+    flagMouseDraggedProblem = 1;
     Matter.Body.setPosition(cannonball.body,{x:mouseX,y:mouseY})
+    }
     
 
     
 }
-/*function mouseReleased(){
+function mouseReleased(){
+    if(flagMouseDraggedProblem === 1){
     chain.update();
+    }
 }
-*/
+
+function ballIsTouching(){
+    if(tankBody.speed>0.4){
+        cannonball.reduceHealth(1);
+    }
+    if(tankBody2.speed>0.4){
+        cannonball.reduceHealth(2);
+    }
+}
+
 

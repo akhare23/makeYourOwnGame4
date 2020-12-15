@@ -3,7 +3,7 @@ class Cannonball{
         this.index = null;
         this.name = "";
         this.body = Bodies.circle(x,y,5);
-        this.playerHealth = 20;
+        this.playerHealth = 7;
         //this.image = loadImage("images/cannonball.png")
         World.add(world,this.body);
     }
@@ -16,6 +16,11 @@ class Cannonball{
         rotate(this.body.angle);
         ellipse(0,0,5,5);
         pop();
+    }
+    reduceHealth(playerIndex){
+        database.ref("players/player" + playerIndex).update({
+            health:allPlayers[playerIndex-1].health
+        })
     }
     getCount(){
         database.ref("playerCount").on("value", function(data){
@@ -40,10 +45,14 @@ class Cannonball{
         database.ref(playerRef).update({
         x:this.body.position.x,
         y:this.body.position.y,
-        health:this.playerHealth,
+        health:this.playerHealth
     })
     }
-    
+    static getAllPlayerInfo(){
+        database.ref("players").on("value", (data)=>{
+            players = data.val();
+        })
+    }
     /*read(){
         var cannonballRef = database.ref("");
         cannonballRef.on("value",function(data){

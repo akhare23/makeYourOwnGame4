@@ -5,7 +5,7 @@ class Game{
     
     async start(){
         if(gameState === "start"){
-        cannonball = new Cannonball(100,100);
+        cannonball = new Cannonball(100,850);
         
 
         var playerCountRef = await database.ref("playerCount").once("value");
@@ -17,10 +17,10 @@ class Game{
         form.display();
 
         }
-    tank1 = createSprite(750,500,50,50);
+    tank1 = createSprite(tankBody.position.x,tankBody.position.y,300,50);
     tank1.addImage("tank1", tankImage1)
     tank1.scale = 0.2;
-    tank2 = createSprite(250,500,50,50);
+    tank2 = createSprite(tankBody2.position.x,tankBody2.position.y,200,50);
     tank2.addImage("tank2", tankImage2);
     tank2.scale = 0.2;
 
@@ -62,10 +62,20 @@ class Game{
        
         cannonball.updatePlayerData();
         Cannonball.getAllPlayerInfo();
-        console.log(players);
+        console.log(cannonball.playerHealth);
         
         chain.display();
         cannonball.display();
+        tank1.x = tankBody.position.x;
+        tank1.y = tankBody.position.y;
+        tank2.x = tankBody2.position.x;
+        tank2.y = tankBody2.position.y;
+
+        healthbar.x = tank1.x;
+        healthbar.y = tank1.y-20;
+        healthbarSprite.x = tank2.x;
+        healthbarSprite.y = tank2.y-20;
+        
         
         drawSprites();
     }

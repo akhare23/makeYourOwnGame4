@@ -9,7 +9,9 @@ class Chain{
         World.add(world,this.chain);
     }
     update(){
+        if(gameState === 1){
         this.chain.bodyA = null;
+        }
     }
     display(){
         if(this.chain.bodyA!== null){
